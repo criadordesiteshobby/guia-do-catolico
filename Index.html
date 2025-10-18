@@ -1,230 +1,332 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Portal do Católico</title>
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background-color: #fffdf5;
-      color: #333;
-      margin: 0;
-      padding: 0;
+    :root{
+      --gold:#B8860B;
+      --lime:#d9ff91;
+      --bg:#fffdf5;
+      --muted:#666;
+      --card:#fff;
+      --radius:12px;
     }
-    header {
-      background: linear-gradient(90deg, #fff, #f0c93d, #d9ff91);
-      color: #222;
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 1.8rem;
-      font-weight: 700;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    section {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      text-align: center;
-    }
-    h2 {
-      color: #c8a600;
-      margin-bottom: 1rem;
-    }
-    button {
-      background-color: #d9ff91;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #f0c93d;
-    }
-    .flag {
-      font-size: 2rem;
-    }
-    .card {
-      background: #fff;
-      border-radius: 15px;
-      padding: 1rem;
-      margin: 1rem 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    footer {
-      background-color: #f0c93d;
-      padding: 1rem;
-      text-align: center;
-      font-weight: 500;
-    }
+    *{box-sizing:border-box}
+    body{font-family:Poppins,system-ui,Arial; margin:0; background:var(--bg); color:#222}
+    header{background:linear-gradient(90deg,#fff,#f0c93d,#d9ff91); padding:18px; text-align:center; font-weight:700; font-size:1.6rem; box-shadow:0 4px 10px rgba(0,0,0,.06)}
+    main{max-width:1000px;margin:28px auto;padding:16px}
+    .grid{display:grid; grid-template-columns:360px 1fr; gap:18px}
+    @media(max-width:920px){ .grid{grid-template-columns:1fr} }
+    .card{background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    h2{color:var(--gold); margin:0 0 12px}
+    input{width:100%; padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,.08); margin:8px 0}
+    button{background:var(--gold); color:white; border:none; padding:10px 14px;border-radius:10px; cursor:pointer; font-weight:700}
+    button.ghost{background:transparent;color:var(--gold);border:2px solid rgba(0,0,0,.06)}
+    .muted{color:var(--muted)}
+    .center{text-align:center}
+    .flag{font-size:2.6rem}
+    footer{padding:14px;text-align:center;color:var(--muted);margin-top:18px}
+    .small{font-size:.9rem;color:var(--muted)}
   </style>
 </head>
 <body>
-  <header>🇻🇦 Portal do Católico 🇻🇦</header>
+  <header>✝️ Portal do Católico ✝️</header>
 
-  <!-- Login Section -->
-  <section id="loginSection">
-    <h2>Login / Cadastro</h2>
-    <input type="email" id="email" placeholder="Seu email"><br><br>
-    <input type="password" id="password" placeholder="Sua senha"><br><br>
-    <button id="registerBtn">Cadastrar</button>
-    <button id="loginBtn">Entrar</button>
-    <button id="logoutBtn" style="display:none;">Sair</button>
-  </section>
+  <main>
+    <div class="grid">
+      <!-- SIDEBAR: Login / User -->
+      <div class="card" id="sidebar">
+        <!-- Auth block -->
+        <div id="authBlock">
+          <h2>Login / Cadastro</h2>
+          <input id="email" type="email" placeholder="Email" autocomplete="username" />
+          <input id="password" type="password" placeholder="Senha (min 6 caracteres)" autocomplete="current-password" />
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="btnRegister">Cadastrar</button>
+            <button id="btnLogin" class="ghost">Entrar</button>
+          </div>
+          <p id="authMsg" class="small muted"></p>
+        </div>
 
-  <!-- Bandeiras -->
-  <section id="flagsSection" style="display:none;">
-    <h2>Coletar Bandeira 🇻🇦</h2>
-    <div class="card">
-      <p>Você pode coletar 1 bandeira a cada 1 hora!</p>
-      <button id="collectBtn">Coletar agora</button>
-      <p id="timer">Próxima coleta: disponível</p>
-      <p>Total de bandeiras: <span id="flagCount">0</span></p>
-    </div>
-  </section>
+        <!-- User block (aparece após login) -->
+        <div id="userBlock" style="display:none">
+          <h2 id="welcomeTitle">Bem-vindo(a)</h2>
+          <p class="small muted" id="userEmail">—</p>
 
-  <!-- Orações -->
-  <section>
-    <h2>Orações</h2>
-    <div class="card">
-      <p><strong>Pai Nosso</strong></p>
-      <p>Pai nosso, que estais no céu, santificado seja o vosso nome...</p>
-    </div>
-    <div class="card">
-      <p><strong>Ave Maria</strong></p>
-      <p>Ave Maria, cheia de graça, o Senhor é convosco...</p>
-    </div>
-  </section>
+          <div style="margin:12px 0">
+            <div class="center flag">🇻🇦</div>
+            <p class="center">Bandeiras coletadas: <strong id="flagCount">0</strong></p>
+            <p class="center small muted" id="nextMsg">Próxima coleta: disponível</p>
+            <div class="center" style="margin-top:10px">
+              <button id="btnCollect">Coletar bandeira</button>
+            </div>
+            <div class="center" style="margin-top:10px">
+              <button id="btnLogout" class="ghost" style="background:transparent;color:#c0392b;border:1px solid rgba(0,0,0,.06)">Sair</button>
+            </div>
+          </div>
+        </div>
 
-  <!-- Santos -->
-  <section>
-    <h2>Santos e Curiosidades</h2>
-    <div class="card">
-      <p><strong>São Francisco de Assis</strong></p>
-      <p>Padroeiro dos animais e da natureza. Exemplo de humildade e amor.</p>
-    </div>
-    <div class="card">
-      <p><strong>Santa Rita de Cássia</strong></p>
-      <p>Conhecida como a santa das causas impossíveis.</p>
-    </div>
-  </section>
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,.04)" />
+        <p class="small muted">Dica: o sistema salva suas bandeiras na sua conta do Firebase. Só você vê seu progresso.</p>
+      </div>
 
-  <!-- Notícias -->
-  <section>
-    <h2>Notícias Católicas</h2>
-    <div class="card">
-      <p><strong>Papa Francisco fala sobre paz e esperança</strong></p>
-      <p>Mensagem recente incentiva a oração e o perdão entre os povos.</p>
+      <!-- MAIN CONTENT -->
+      <div>
+        <section class="card">
+          <h2>Portal do Católico — Guia e Recursos</h2>
+          <p class="small muted">Seções: Orações, Santos, Curiosidades e Notícias. Faça login para coletar bandeiras 🇻🇦 a cada 1 hora.</p>
+        </section>
+
+        <section class="card" style="margin-top:18px">
+          <h2>Orações</h2>
+          <div style="display:grid;gap:12px">
+            <div>
+              <strong>Pai Nosso</strong>
+              <p class="small muted">Pai nosso, que estais nos céus, santificado seja o vosso nome...</p>
+            </div>
+            <div>
+              <strong>Ave Maria</strong>
+              <p class="small muted">Ave Maria, cheia de graça, o Senhor é convosco...</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:18px">
+          <h2>Santos & Curiosidades</h2>
+          <div style="display:grid;gap:12px">
+            <div>
+              <strong>São Francisco de Assis</strong>
+              <p class="small muted">Padroeiro dos animais. Exemplo de humildade.</p>
+            </div>
+            <div>
+              <strong>Santa Rita de Cássia</strong>
+              <p class="small muted">Conhecida como a santa das causas impossíveis.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:18px">
+          <h2>Notícias & Eventos</h2>
+          <div style="display:grid;gap:12px">
+            <div>
+              <strong>Papa incentiva oração pela paz</strong>
+              <p class="small muted">Mensagem recente incentiva a comunidade a rezar por reconciliação.</p>
+            </div>
+            <div>
+              <strong>Campanha de caridade local</strong>
+              <p class="small muted">Inscrições abertas para voluntariado paroquial.</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-  </section>
+  </main>
 
   <footer>© 2025 Portal do Católico • Feito com fé 🇻🇦</footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase + lógica -->
   <script type="module">
-    // Importar SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    /* ------------------------------
+       IMPORTS (modular SDK)
+       ------------------------------ */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // 🔧 COLE SUA CONFIG DO FIREBASE AQUI
+    /* ------------------------------------------------
+       SUA CONFIG DO FIREBASE (VOCÊ JÁ MANDOU ESSA)
+       ------------------------------------------------
+       Vou usar exatamente a config que você enviou.
+    */
     const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "SEU_AUTH_DOMAIN",
-      projectId: "SEU_PROJECT_ID",
-      storageBucket: "SEU_STORAGE_BUCKET",
-      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-      appId: "SEU_APP_ID"
+      apiKey: "AIzaSyBs8B_Vsmx3pc3UnGDOiseSoeH0D4w2M0k",
+      authDomain: "guia-do-catolico-fb-login.firebaseapp.com",
+      projectId: "guia-do-catolico-fb-login",
+      storageBucket: "guia-do-catolico-fb-login.firebasestorage.app",
+      messagingSenderId: "607834445049",
+      appId: "1:607834445049:web:1fc49e7107bd0a5c387e28",
+      measurementId: "G-QP68MRVQ8B"
     };
 
+    /* Inicializa Firebase */
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Elementos
-    const registerBtn = document.getElementById("registerBtn");
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const flagsSection = document.getElementById("flagsSection");
-    const loginSection = document.getElementById("loginSection");
-    const collectBtn = document.getElementById("collectBtn");
-    const flagCountEl = document.getElementById("flagCount");
-    const timerEl = document.getElementById("timer");
+    /* ELEMENTOS */
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    const btnRegister = document.getElementById('btnRegister');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnLogout = document.getElementById('btnLogout');
+    const authMsg = document.getElementById('authMsg');
 
-    let flagCount = 0;
-    let nextCollect = 0;
+    const userBlock = document.getElementById('userBlock');
+    const authBlock = document.getElementById('authBlock');
+    const welcomeTitle = document.getElementById('welcomeTitle');
+    const userEmailSpan = document.getElementById('userEmail');
+    const flagCountEl = document.getElementById('flagCount');
+    const nextMsg = document.getElementById('nextMsg');
+    const btnCollect = document.getElementById('btnCollect');
 
-    registerBtn.onclick = async () => {
-      const email = emailInput.value;
-      const password = passwordInput.value;
+    /* Estado local */
+    let currentUser = null;
+    let userData = { bandeiras: 0, ultimo: 0 }; // ultimo = timestamp da última coleta (ms)
+
+    /* Função: carrega (ou cria) doc do usuário no Firestore */
+    async function ensureUserDoc(uid) {
+      const ref = doc(db, "usuarios", uid);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        await setDoc(ref, { bandeiras: 0, ultimo: 0 });
+        return { bandeiras: 0, ultimo: 0 };
+      } else {
+        return snap.data();
+      }
+    }
+
+    /* Atualiza a UI do usuário com os dados */
+    function refreshUserUI() {
+      flagCountEl.textContent = userData.bandeiras ?? 0;
+      userEmailSpan.textContent = currentUser ? currentUser.email : '—';
+      // Atualiza botão de coletar com base no último
+      const agora = Date.now();
+      const diff = Math.max(0, 3600000 - (agora - (userData.ultimo || 0)));
+      if (diff <= 0) {
+        nextMsg.textContent = "Próxima coleta: disponível";
+        btnCollect.disabled = false;
+      } else {
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        nextMsg.textContent = `Próxima coleta: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        btnCollect.disabled = true;
+      }
+    }
+
+    /* Atualizador de timer a cada segundo (apenas UI) */
+    setInterval(() => {
+      if (currentUser) refreshUserUI();
+    }, 1000);
+
+    /* -------------------------
+       AUTENTICAÇÃO: cadastro
+       ------------------------- */
+    btnRegister.addEventListener('click', async () => {
+      authMsg.textContent = '';
+      const email = emailEl.value.trim();
+      const password = passwordEl.value;
+      if (!email || !password) { authMsg.textContent = 'Preencha email e senha.'; return; }
+      if (password.length < 6) { authMsg.textContent = 'Senha precisa ter ao menos 6 caracteres.'; return; }
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        alert("Conta criada!");
-      } catch (e) {
-        alert(e.message);
-      }
-    };
-
-    loginBtn.onclick = async () => {
-      const email = emailInput.value;
-      const password = passwordInput.value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login realizado!");
-      } catch (e) {
-        alert(e.message);
-      }
-    };
-
-    logoutBtn.onclick = async () => {
-      await signOut(auth);
-    };
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        loginSection.style.display = "none";
-        flagsSection.style.display = "block";
-        logoutBtn.style.display = "inline";
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          flagCount = docSnap.data().bandeiras || 0;
-          flagCountEl.textContent = flagCount;
-        }
-      } else {
-        loginSection.style.display = "block";
-        flagsSection.style.display = "none";
-        logoutBtn.style.display = "none";
+        authMsg.textContent = 'Conta criada — entrando...';
+      } catch (err) {
+        authMsg.textContent = 'Erro: ' + (err.message || err);
+        console.error(err);
       }
     });
 
-    collectBtn.onclick = async () => {
-      const now = Date.now();
-      if (now < nextCollect) {
-        alert("Espere o tempo acabar para coletar novamente.");
+    /* -------------------------
+       AUTENTICAÇÃO: login
+       ------------------------- */
+    btnLogin.addEventListener('click', async () => {
+      authMsg.textContent = '';
+      const email = emailEl.value.trim();
+      const password = passwordEl.value;
+      if (!email || !password) { authMsg.textContent = 'Preencha email e senha.'; return; }
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        authMsg.textContent = 'Erro: ' + (err.message || err);
+        console.error(err);
+      }
+    });
+
+    /* -------------------------
+       LOGOUT
+       ------------------------- */
+    btnLogout.addEventListener('click', async () => {
+      await signOut(auth);
+    });
+
+    /* -------------------------
+       ON AUTH STATE CHANGED
+       ------------------------- */
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user;
+      if (user) {
+        // esconder auth, mostrar user
+        authBlock.style.display = 'none';
+        userBlock.style.display = 'block';
+        // carrega doc do user
+        try {
+          userData = await ensureUserDoc(user.uid);
+        } catch (err) {
+          console.error('Erro ao carregar doc do usuário:', err);
+          userData = { bandeiras: 0, ultimo: 0 };
+        }
+        refreshUserUI();
+      } else {
+        // logout UI
+        authBlock.style.display = 'block';
+        userBlock.style.display = 'none';
+        authMsg.textContent = '';
+      }
+    });
+
+    /* -------------------------
+       COLETAR: lógica 1h e salvar no Firestore
+       ------------------------- */
+    btnCollect.addEventListener('click', async () => {
+      if (!currentUser) { alert('Faça login para coletar.'); return; }
+      const agora = Date.now();
+      const ultimo = userData.ultimo || 0;
+      if (agora - ultimo < 3600000) {
+        const faltam = 3600000 - (agora - ultimo);
+        const m = Math.floor(faltam / 60000);
+        const s = Math.floor((faltam % 60000) / 1000);
+        alert(`Ainda não passou 1 hora. Aguarde ${m}m ${s}s.`);
         return;
       }
-      flagCount++;
-      flagCountEl.textContent = flagCount;
-      nextCollect = now + 3600000; // 1 hora
-      const user = auth.currentUser;
-      if (user) await setDoc(doc(db, "usuarios", user.uid), { bandeiras: flagCount });
-      alert("Bandeira coletada 🇻🇦!");
-    };
-
-    // Atualiza contador de tempo
-    setInterval(() => {
-      const diff = nextCollect - Date.now();
-      if (diff > 0) {
-        const min = Math.floor(diff / 60000);
-        const sec = Math.floor((diff % 60000) / 1000);
-        timerEl.textContent = `Próxima coleta: ${min}m ${sec}s`;
-      } else {
-        timerEl.textContent = "Próxima coleta: disponível";
+      // incrementar local e no Firestore
+      userData.bandeiras = (userData.bandeiras || 0) + 1;
+      userData.ultimo = agora;
+      // atualizar UI imediatamente
+      refreshUserUI();
+      // salva no Firestore
+      try {
+        const ref = doc(db, 'usuarios', currentUser.uid);
+        await updateDoc(ref, { bandeiras: userData.bandeiras, ultimo: userData.ultimo });
+        alert('Você coletou uma bandeira 🇻🇦!');
+      } catch (err) {
+        // se update falhar (por ex. doc não existir), usa setDoc
+        try {
+          const ref = doc(db, 'usuarios', currentUser.uid);
+          await setDoc(ref, { bandeiras: userData.bandeiras, ultimo: userData.ultimo }, { merge: true });
+          alert('Você coletou uma bandeira 🇻🇦!');
+        } catch (e2) {
+          console.error('Erro salvando bandeira:', e2);
+          alert('Erro ao salvar. Verifique o console e regras do Firestore.');
+        }
       }
-    }, 1000);
+    });
+
+    /* -------------------------
+       Observação sobre regras Firestore
+       ------------------------- */
+    // Se você testar e der erro de permissão (permission-denied), abra o console do Firebase:
+    // Firestore → Regras e, temporariamente para testes, use:
+    // service cloud.firestore {
+    //   match /databases/{database}/documents {
+    //     match /{document=**} {
+    //       allow read, write: if request.auth != null;
+    //     }
+    //   }
+    // }
+    // Isso permite somente usuários autenticados a ler/gravar — seguro para testes.
   </script>
 </body>
-  </html>
+                </html>
