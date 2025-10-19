@@ -1,409 +1,356 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal do Católico</title>
   <style>
-    :root{
-      --gold:#B8860B;
-      --lime:#d9ff91;
-      --bg:#fffdf5;
-      --muted:#666;
-      --card:#fff;
-      --radius:12px;
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: #f8f8f8;
     }
-    *{box-sizing:border-box}
-    body{font-family:Poppins,system-ui,Arial; margin:0; background:var(--bg); color:#222}
-    header{background:linear-gradient(90deg,#fff,#f0c93d,#d9ff91); padding:18px; text-align:center; font-weight:700; font-size:1.6rem; box-shadow:0 4px 10px rgba(0,0,0,.06)}
-    main{max-width:1000px;margin:28px auto;padding:16px}
-    .grid{display:grid; grid-template-columns:360px 1fr; gap:18px}
-    @media(max-width:920px){ .grid{grid-template-columns:1fr} }
-    .card{background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:0 6px 20px rgba(0,0,0,.04)}
-    h2{color:var(--gold); margin:0 0 12px}
-    input{width:100%; padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,.08); margin:8px 0}
-    button{background:var(--gold); color:white; border:none; padding:10px 14px;border-radius:10px; cursor:pointer; font-weight:700}
-    button.ghost{background:transparent;color:var(--gold);border:2px solid rgba(0,0,0,.06)}
-    .muted{color:var(--muted)}
-    .center{text-align:center}
-    .flag{font-size:2.6rem}
-    footer{padding:14px;text-align:center;color:var(--muted);margin-top:18px}
-    .small{font-size:.9rem;color:var(--muted)}
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      width: 250px;
+      background-color: #f0f0f0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      padding-top: 80px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    nav h2 {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      width: 250px;
+      text-align: center;
+      color: #f4c542;
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+      color: #333;
+      transition: background 0.3s;
+    }
+
+    nav ul li:hover {
+      background-color: #ddd;
+    }
+
+    main {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    .chat-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      height: 70vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      background: #f5f5f5;
+      padding: 8px;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .message:hover {
+      background: #eaeaea;
+    }
+
+    .message-menu {
+      display: none;
+      position: absolute;
+      top: -30px;
+      right: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 5px;
+    }
+
+    .message:hover .message-menu {
+      display: block;
+    }
+
+    .input-area {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .input-area button {
+      padding: 10px 15px;
+      margin-left: 8px;
+      background-color: #f4c542;
+      color: #333;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .input-area button:hover {
+      background-color: #e0b534;
+    }
+
+    .config-area {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .status-btn {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .btn-online {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn-offline {
+      background: #aaa;
+      color: white;
+    }
+
+    .counter {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
   </style>
 </head>
 <body>
-  <header>✝️ Portal do Católico ✝️</header>
+
+  <header>Portal do Católico</header>
+
+  <nav>
+    <h2>Menu</h2>
+    <ul>
+      <li onclick="showSection('principal')">🏠 Menu Principal</li>
+      <li onclick="showSection('chat')">💬 Chat Online</li>
+      <li onclick="showSection('historia')">📜 História</li>
+      <li onclick="showSection('config')">⚙️ Configurações</li>
+      <li onclick="showSection('conta')">👤 Conta</li>
+    </ul>
+  </nav>
 
   <main>
-    <div class="grid">
-      <div class="card" id="sidebar">
-        <div id="authBlock">
-          <h2>Login / Cadastro</h2>
-          <input id="email" type="email" placeholder="Email" autocomplete="username" />
-          <input id="password" type="password" placeholder="Senha (min 6 caracteres)" autocomplete="current-password" />
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="btnRegister">Cadastrar</button>
-            <button id="btnLogin" class="ghost">Entrar</button>
-          </div>
-          <p id="authMsg" class="small muted"></p>
+    <section id="principal" class="active">
+      <h1>Bem-vindo ao Portal do Católico</h1>
+      <p>Seu espaço de fé, comunhão e conhecimento sobre a Igreja Católica Apostólica Romana.</p>
+    </section>
+
+    <section id="chat">
+      <h1>Chat Online</h1>
+      <div class="chat-container">
+        <div class="messages" id="messages"></div>
+        <div class="input-area">
+          <input type="text" id="messageInput" placeholder="Digite sua mensagem..." />
+          <button onclick="sendMessage()">Enviar</button>
         </div>
+      </div>
+    </section>
 
-        <div id="userBlock" style="display:none">
-          <h2 id="welcomeTitle">Bem-vindo(a)</h2>
-          <p class="small muted" id="userEmail">—</p>
+    <section id="historia">
+      <h1>História da Igreja Católica Apostólica Romana</h1>
+      <p>
+        A Igreja Católica Apostólica Romana é a mais antiga instituição cristã contínua do mundo, 
+        com uma história que remonta aos tempos dos apóstolos de Cristo, especialmente Pedro, 
+        considerado o primeiro Papa. Ao longo dos séculos, a Igreja desempenhou papel fundamental 
+        na formação da cultura ocidental, preservando o conhecimento, promovendo a caridade e 
+        evangelizando os povos em todos os continentes.
+      </p>
+      <p>
+        Sua sede está no Vaticano, em Roma, e o Papa é seu líder espiritual. 
+        A fé católica se baseia na Sagrada Escritura, na Tradição Apostólica e no Magistério da Igreja. 
+        O catolicismo é marcado pelos sacramentos, pela devoção à Virgem Maria e aos santos, 
+        e pela missão de anunciar o Evangelho a toda criatura.
+      </p>
+    </section>
 
-          <div style="margin:12px 0">
-            <div class="center flag">🇻🇦</div>
-            <p class="center">Bandeiras coletadas: <strong id="flagCount">0</strong></p>
-            <p class="center small muted" id="nextMsg">Próxima coleta: disponível</p>
-            <div class="center" style="margin-top:10px">
-              <button id="btnCollect">Coletar bandeira</button>
-            </div>
-            <div class="center" style="margin-top:10px">
-              <button id="btnLogout" class="ghost" style="background:transparent;color:#c0392b;border:1px solid rgba(0,0,0,.06)">Sair</button>
-            </div>
-          </div>
+    <section id="config">
+      <h1>Configurações</h1>
+      <div class="config-area" id="configArea">
+        <input type="password" id="senhaInput" placeholder="Digite a senha" />
+        <button onclick="verificarSenha()">Entrar</button>
+        <div id="configConteudo" style="display:none;">
+          <button class="status-btn btn-online" onclick="ativarStatus(true)">Estamos Online</button>
+          <button class="status-btn btn-offline" onclick="ativarStatus(false)">Não Estamos Online</button>
+          <div class="counter" id="onlineCounter">Usuários online: 0</div>
+          <p id="statusMsg"></p>
         </div>
-
-        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,.04)" />
-        <p class="small muted">Dica: o sistema salva suas bandeiras na sua conta do Firebase. Só você vê seu progresso.</p>
       </div>
+    </section>
 
-      <div>
-        <section class="card">
-          <h2>Portal do Católico — Guia e Recursos</h2>
-          <p class="small muted">Seções: Orações, Santos, Curiosidades e Notícias. Faça login para coletar bandeiras 🇻🇦 a cada 1 hora.</p>
-        </section>
-      </div>
-    </div>
+    <section id="conta">
+      <h1>Conta</h1>
+      <p id="userInfo">Carregando informações da conta...</p>
+      <button onclick="logout()">Sair</button>
+    </section>
   </main>
 
-  <!-- Passos (visíveis) -->
-  <section>
-    <h2>Passo 1</h2>
-    <p>Ame a Deus sobre todas as coisas.</p>
-  </section>
-  <section>
-    <h2>Passo 2</h2>
-    <p>Siga o exemplo de Jesus em tudo o que fizer.</p>
-  </section>
-  <section>
-    <h2>Passo 3</h2>
-    <p>Ore todos os dias, mesmo que por pouco tempo.</p>
-  </section>
-  <section>
-    <h2>Passo 4</h2>
-    <p>Leia e medite a Palavra de Deus regularmente.</p>
-  </section>
-  <section>
-    <h2>Passo 5</h2>
-    <p>Perdoe como Cristo nos perdoa, sem guardar rancor.</p>
-  </section>
-  <section>
-    <h2>Passo 6</h2>
-    <p>Confie plenamente na vontade de Deus, mesmo nas dificuldades.</p>
-  </section>
-  <section>
-    <h2>Passo 7</h2>
-    <p>Frequentar a Santa Missa com fé e atenção.</p>
-  </section>
-  <section>
-    <h2>Passo 8</h2>
-    <p>Receber os sacramentos com o coração limpo e sincero.</p>
-  </section>
-  <section>
-    <h2>Passo 9</h2>
-    <p>Praticar a caridade e ajudar quem mais precisa.</p>
-  </section>
-  <section>
-    <h2>Passo 10</h2>
-    <p>Evite o pecado e busque sempre a confissão.</p>
-  </section>
-  <section>
-    <h2>Passo 11</h2>
-    <p>Seja humilde, pois a humildade aproxima de Deus.</p>
-  </section>
-  <section>
-    <h2>Passo 12</h2>
-    <p>Honre Maria, Mãe de Deus, com amor e devoção.</p>
-  </section>
-  <section>
-    <h2>Passo 13</h2>
-    <p>Reze o Terço com fé e entrega.</p>
-  </section>
-  <section>
-    <h2>Passo 14</h2>
-    <p>Respeite e ame o próximo como a si mesmo.</p>
-  </section>
-  <section>
-    <h2>Passo 15</h2>
-    <p>Persevere na fé, mesmo quando o mundo for contrário.</p>
-  </section>
-  <section>
-    <h2>Passo 16</h2>
-    <p>Evite más companhias e más influências.</p>
-  </section>
-  <section>
-    <h2>Passo 17</h2>
-    <p>Pratique o jejum e a penitência com coração puro.</p>
-  </section>
-  <section>
-    <h2>Passo 18</h2>
-    <p>Busque a paz e espalhe o bem por onde passar.</p>
-  </section>
-  <section>
-    <h2>Passo 19</h2>
-    <p>Evite julgamentos e críticas desnecessárias.</p>
-  </section>
-  <section>
-    <h2>Passo 20</h2>
-    <p>Fortaleça sua fé com leitura e conhecimento da Igreja.</p>
-  </section>
-  <section>
-    <h2>Passo 21</h2>
-    <p>Respeite os mandamentos e ensinos da Igreja Católica.</p>
-  </section>
-  <section>
-    <h2>Passo 22</h2>
-    <p>Pratique a paciência e a mansidão em todos os momentos.</p>
-  </section>
-  <section>
-    <h2>Passo 23</h2>
-    <p>Busque viver em estado de graça, longe do pecado.</p>
-  </section>
-  <section>
-    <h2>Passo 24</h2>
-    <p>Seja exemplo de fé e testemunho cristão.</p>
-  </section>
-  <section>
-    <h2>Passo 25</h2>
-    <p>Trabalhe com honestidade e coração justo.</p>
-  </section>
-  <section>
-    <h2>Passo 26</h2>
-    <p>Cuide do próximo como um irmão em Cristo.</p>
-  </section>
-  <section>
-    <h2>Passo 27</h2>
-    <p>Ofereça seus sofrimentos a Deus com amor.</p>
-  </section>
-  <section>
-    <h2>Passo 28</h2>
-    <p>Busque a pureza do corpo e da alma.</p>
-  </section>
-  <section>
-    <h2>Passo 29</h2>
-    <p>Confie em Maria Santíssima nas horas difíceis.</p>
-  </section>
-  <section>
-    <h2>Passo 30</h2>
-    <p>Reconheça seus erros e busque sempre melhorar.</p>
-  </section>
-  <section>
-    <h2>Passo 31</h2>
-    <p>Pratique o amor sem esperar nada em troca.</p>
-  </section>
-  <section>
-    <h2>Passo 32</h2>
-    <p>Respeite a vida em todas as suas formas.</p>
-  </section>
-  <section>
-    <h2>Passo 33</h2>
-    <p>Glorifique a Deus em cada vitória e cada queda.</p>
-  </section>
-  <section>
-    <h2>Passo 34</h2>
-    <p>Evangelize com palavras e atitudes.</p>
-  </section>
-  <section>
-    <h2>Passo 35</h2>
-    <p>Busque a santidade todos os dias, com fé e perseverança.</p>
-  </section>
-
-  <footer>© 2025 Portal do Católico • Feito com fé 🇻🇦</footer>
-
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import {
-      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-      signOut, onAuthStateChanged, setPersistence, browserLocalPersistence
-    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    // =====================================
+    // 🔥 CONFIGURAÇÃO DO FIREBASE
+    // Cole aqui as mesmas chaves do seu projeto
+    // =====================================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-    // === SUA CONFIG (já fornecida por você) ===
     const firebaseConfig = {
-      apiKey: "AIzaSyBs8B_Vsmx3pc3UnGDOiseSoeH0D4w2M0k",
-      authDomain: "guia-do-catolico-fb-login.firebaseapp.com",
-      projectId: "guia-do-catolico-fb-login",
-      storageBucket: "guia-do-catolico-fb-login.firebasestorage.app",
-      messagingSenderId: "607834445049",
-      appId: "1:607834445049:web:1fc49e7107bd0a5c387e28",
-      measurementId: "G-QP68MRVQ8B"
+      // 🔑 COLE AQUI SUAS CHAVES DO FIREBASE (as mesmas do outro site)
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // persistência local do login (mantém logado após fechar/abrir)
-    await setPersistence(auth, browserLocalPersistence).catch(e => {
-      console.warn('Erro ao setar persistência:', e);
-    });
-
-    const emailEl = document.getElementById('email');
-    const passwordEl = document.getElementById('password');
-    const btnRegister = document.getElementById('btnRegister');
-    const btnLogin = document.getElementById('btnLogin');
-    const btnLogout = document.getElementById('btnLogout');
-    const authMsg = document.getElementById('authMsg');
-    const userBlock = document.getElementById('userBlock');
-    const authBlock = document.getElementById('authBlock');
-    const userEmailSpan = document.getElementById('userEmail');
-    const flagCountEl = document.getElementById('flagCount');
-    const nextMsg = document.getElementById('nextMsg');
-    const btnCollect = document.getElementById('btnCollect');
-
-    let currentUser = null;
-    let userData = { bandeiras: 0, ultimo: 0 };
-
-    async function ensureUserDoc(uid) {
-      const ref = doc(db, "usuarios", uid);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) {
-        await setDoc(ref, { bandeiras: 0, ultimo: 0 });
-        return { bandeiras: 0, ultimo: 0 };
-      }
-      return snap.data();
+    // =====================================
+    // 🔹 MENU DE NAVEGAÇÃO
+    // =====================================
+    function showSection(id) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
     }
 
-    function refreshUserUI() {
-      flagCountEl.textContent = userData.bandeiras ?? 0;
-      userEmailSpan.textContent = currentUser ? currentUser.email : '—';
-      const agora = Date.now();
-      const diff = Math.max(0, 3600000 - (agora - (userData.ultimo || 0)));
-      if (diff <= 0) {
-        nextMsg.textContent = "Próxima coleta: disponível";
-        btnCollect.disabled = false;
+    // =====================================
+    // 💬 CHAT ONLINE
+    // =====================================
+    const messagesDiv = document.getElementById("messages");
+    const messageInput = document.getElementById("messageInput");
+
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      if (text === "") return;
+      const user = auth.currentUser;
+      if (!user) return alert("Você precisa estar logado.");
+
+      await addDoc(collection(db, "mensagens"), {
+        nome: user.email.split("@")[0],
+        texto: text,
+        horario: serverTimestamp()
+      });
+
+      messageInput.value = "";
+    }
+
+    onSnapshot(collection(db, "mensagens"), (snapshot) => {
+      messagesDiv.innerHTML = "";
+      snapshot.forEach(doc => {
+        const msg = doc.data();
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = `
+          <strong>${msg.nome}</strong>: ${msg.texto}
+          <div class="message-menu">
+            <button onclick="navigator.clipboard.writeText('${msg.texto}')">📋</button>
+            <button>❤️</button>
+            <button>💬</button>
+            <span>${msg.horario?.toDate ? msg.horario.toDate().toLocaleTimeString() : ''}</span>
+          </div>
+        `;
+        messagesDiv.appendChild(div);
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    // =====================================
+    // ⚙️ CONFIGURAÇÕES
+    // =====================================
+    function verificarSenha() {
+      const senha = document.getElementById("senhaInput").value;
+      if (senha === "PTC333") {
+        document.getElementById("configConteudo").style.display = "block";
       } else {
-        const h = Math.floor(diff / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        nextMsg.textContent = `Próxima coleta: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-        btnCollect.disabled = true;
+        alert("Senha incorreta.");
       }
     }
 
-    // atualiza o timer ao vivo
-    setInterval(() => { if (currentUser) refreshUserUI(); }, 1000);
+    function ativarStatus(online) {
+      const msg = document.getElementById("statusMsg");
+      msg.textContent = online ? "ESTAMOS ONLINE" : "NÃO ESTAMOS ONLINE";
+      msg.style.color = online ? "green" : "gray";
+    }
 
-    btnRegister.addEventListener('click', async () => {
-      authMsg.textContent = '';
-      const email = emailEl.value.trim();
-      const password = passwordEl.value;
-      if (!email || !password) return authMsg.textContent = 'Preencha email e senha.';
-      if (password.length < 6) return authMsg.textContent = 'Senha precisa ter ao menos 6 caracteres.';
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        authMsg.textContent = 'Conta criada — entrando...';
-      } catch (err) {
-        authMsg.textContent = 'Erro: ' + (err.message || err);
-        console.error(err);
-      }
-    });
-
-    btnLogin.addEventListener('click', async () => {
-      authMsg.textContent = '';
-      const email = emailEl.value.trim();
-      const password = passwordEl.value;
-      if (!email || !password) return authMsg.textContent = 'Preencha email e senha.';
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        authMsg.textContent = 'Erro: ' + (err.message || err);
-        console.error(err);
-      }
-    });
-
-    btnLogout.addEventListener('click', async () => {
-      try {
-        await signOut(auth);
-      } catch (e) {
-        console.error('Erro ao sair:', e);
-      }
-    });
-
-    // sempre recarrega os dados do Firestore ao entrar
-    onAuthStateChanged(auth, async (user) => {
-      currentUser = user;
+    // =====================================
+    // 👤 CONTA
+    // =====================================
+    onAuthStateChanged(auth, (user) => {
+      const userInfo = document.getElementById("userInfo");
       if (user) {
-        try {
-          authBlock.style.display = 'none';
-          userBlock.style.display = 'block';
-          const ref = doc(db, "usuarios", user.uid);
-          const snap = await getDoc(ref);
-          if (snap.exists()) {
-            userData = snap.data();
-          } else {
-            userData = await ensureUserDoc(user.uid);
-          }
-          refreshUserUI();
-        } catch (err) {
-          console.error('Erro carregando dados do usuário:', err);
-          userData = { bandeiras: 0, ultimo: 0 };
-          refreshUserUI();
-        }
+        userInfo.textContent = `Logado como: ${user.email}`;
       } else {
-        authBlock.style.display = 'block';
-        userBlock.style.display = 'none';
-        authMsg.textContent = '';
-        currentUser = null;
-        userData = { bandeiras: 0, ultimo: 0 };
+        userInfo.textContent = "Nenhum usuário logado.";
       }
     });
 
-    // coleta + garante que Firestore foi atualizado e re-lê
-    btnCollect.addEventListener('click', async () => {
-      if (!currentUser) return alert('Faça login para coletar.');
-      const agora = Date.now();
-      const ultimo = userData.ultimo || 0;
-      if (agora - ultimo < 3600000) {
-        const faltam = 3600000 - (agora - ultimo);
-        const m = Math.floor(faltam / 60000);
-        const s = Math.floor((faltam % 60000) / 1000);
-        return alert(`Aguarde ${m}m ${s}s.`);
-      }
-
-      // atualizar localmente primeiro (melhor UX)
-      userData.bandeiras = (userData.bandeiras || 0) + 1;
-      userData.ultimo = agora;
-      refreshUserUI();
-
-      // salvar no Firestore com update; se falhar, usar setDoc
-      const ref = doc(db, 'usuarios', currentUser.uid);
-      try {
-        await updateDoc(ref, { bandeiras: userData.bandeiras, ultimo: userData.ultimo });
-      } catch (err) {
-        // se update falhar (doc pode não existir), usa setDoc
-        try {
-          await setDoc(ref, { bandeiras: userData.bandeiras, ultimo: userData.ultimo }, { merge: true });
-        } catch (e2) {
-          console.error('Erro ao salvar bandeira no Firestore:', e2);
-          alert('Erro ao salvar. Verifique as regras do Firestore no console.');
-          return;
-        }
-      }
-
-      // re-ler do Firestore para garantir consistência
-      try {
-        const snap = await getDoc(ref);
-        if (snap.exists()) userData = snap.data();
-        refreshUserUI();
-      } catch (e) {
-        console.warn('Não foi possível re-ler o documento imediatamente:', e);
-      }
-
-      alert('Você coletou uma bandeira 🇻🇦!');
-    });
+    function logout() {
+      signOut(auth);
+      alert("Você saiu da conta.");
+    }
   </script>
 </body>
-  </html>
+          </html>
