@@ -1,356 +1,486 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Portal do Católico</title>
   <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background-color: #f8f8f8;
+    :root{
+      --gold:#ffcc00;
+      --gray:#2e2e2e;
+      --light-gray:#f0f0f0;
+      --bg:#fffdf5;
+      --muted:#666;
+      --card:#ffffff;
+      --radius:12px;
+      --nav-width:300px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Poppins,system-ui,Arial; background:var(--bg); color:#222;
     }
 
-    header {
-      background-color: #333;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 1.4em;
-      font-weight: bold;
-      letter-spacing: 1px;
+    /* Top bar */
+    .topbar{
+      height:64px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:0 16px;
+      background:linear-gradient(90deg,#ffffff, #fff7d6);
+      box-shadow:0 4px 10px rgba(0,0,0,.06);
+      position:fixed;
+      left:0; right:0; top:0; z-index:30;
     }
-
-    nav {
-      width: 250px;
-      background-color: #f0f0f0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      padding-top: 80px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    .menu-btn{
+      background:var(--gray);
+      color:white;
+      border:none;
+      padding:8px 12px;
+      border-radius:8px;
+      font-size:1.1rem;
+      cursor:pointer;
     }
+    .site-title{ font-weight:800; color:var(--gray); font-size:1.2rem; }
 
-    nav h2 {
-      position: absolute;
-      top: 15px;
-      left: 0;
-      width: 250px;
-      text-align: center;
-      color: #f4c542;
+    /* Sidebar */
+    .sidebar{
+      position:fixed;
+      left:0; top:64px;
+      width:var(--nav-width);
+      bottom:0;
+      background:var(--light-gray);
+      border-right:1px solid rgba(0,0,0,.06);
+      padding:18px 12px;
+      transform:translateX(-340px);
+      transition:transform .28s ease;
+      z-index:40;
     }
-
-    nav ul {
-      list-style-type: none;
-      padding: 0;
+    .sidebar.open{ transform:translateX(0); }
+    .sidebar h2{ margin:0 0 14px; text-align:center; color:var(--gold); }
+    .nav-list{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
+    .nav-list button{
+      background:white; border:none; padding:12px 10px; text-align:left; border-radius:10px;
+      font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.04);
     }
+    .nav-list button:hover{ transform:translateY(-2px); }
 
-    nav ul li {
-      padding: 15px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-      cursor: pointer;
-      color: #333;
-      transition: background 0.3s;
+    /* Main content */
+    main{ margin-top:64px; padding:20px; margin-left:0; transition:margin-left .28s ease; min-height:calc(100vh - 64px); }
+    main.shift{ margin-left:var(--nav-width); }
+
+    .card{ background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:0 6px 20px rgba(0,0,0,.04); margin-bottom:16px; }
+
+    /* Chat */
+    .chat-wrap{ display:flex; flex-direction:column; gap:12px; height:70vh; }
+    .messages{ flex:1; overflow:auto; border:1px solid rgba(0,0,0,.06); border-radius:12px; padding:12px; background:#fff; }
+    .message{
+      background:#fbfbfb; margin-bottom:10px; border-radius:10px; padding:8px 10px; position:relative;
+      display:flex; gap:8px; align-items:flex-start;
     }
+    .message .meta{ font-size:.85rem; color:var(--muted); margin-bottom:6px; }
+    .message .text{ white-space:pre-wrap; }
+    .message .reactions{ margin-top:6px; display:flex; gap:6px; flex-wrap:wrap; }
 
-    nav ul li:hover {
-      background-color: #ddd;
+    .message .msg-actions{
+      position:absolute; right:8px; top:8px; display:none; gap:6px;
     }
+    .message:hover .msg-actions{ display:flex; }
 
-    main {
-      margin-left: 250px;
-      padding: 20px;
+    .input-area{ display:flex; gap:8px; margin-top:8px; }
+    .input-area input{ flex:1; padding:10px; border-radius:10px; border:1px solid rgba(0,0,0,.06); }
+    .input-area button{ background:var(--gold); border:none; color:#222; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:800; }
+
+    /* Config */
+    .config-row{ display:flex; gap:12px; align-items:center; margin-top:10px; }
+    .status-btn{ padding:10px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:700; }
+    .btn-online{ background:#2ecc71; color:white; }
+    .btn-offline{ background:#95a5a6; color:white; }
+
+    /* small */
+    .small{ font-size:.9rem; color:var(--muted); }
+
+    /* responsive */
+    @media(max-width:920px){
+      :root{ --nav-width:260px; }
+      .sidebar{ width:var(--nav-width); }
     }
-
-    section {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    section.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    .chat-container {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      padding: 15px;
-      height: 70vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-    }
-
-    .message {
-      margin-bottom: 10px;
-      background: #f5f5f5;
-      padding: 8px;
-      border-radius: 6px;
-      position: relative;
-    }
-
-    .message:hover {
-      background: #eaeaea;
-    }
-
-    .message-menu {
-      display: none;
-      position: absolute;
-      top: -30px;
-      right: 10px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 5px;
-    }
-
-    .message:hover .message-menu {
-      display: block;
-    }
-
-    .input-area {
-      display: flex;
-      margin-top: 10px;
-    }
-
-    .input-area input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    .input-area button {
-      padding: 10px 15px;
-      margin-left: 8px;
-      background-color: #f4c542;
-      color: #333;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .input-area button:hover {
-      background-color: #e0b534;
-    }
-
-    .config-area {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .status-btn {
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-
-    .btn-online {
-      background: #4CAF50;
-      color: white;
-    }
-
-    .btn-offline {
-      background: #aaa;
-      color: white;
-    }
-
-    .counter {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
   </style>
 </head>
 <body>
+  <div class="topbar">
+    <button class="menu-btn" id="toggleMenu">☰ Menu</button>
+    <div class="site-title">Portal do Católico</div>
+    <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+      <div id="userBadge" class="small">Não logado</div>
+      <button id="openLogin" class="menu-btn" style="background:var(--gold);color:#222">Login</button>
+    </div>
+  </div>
 
-  <header>Portal do Católico</header>
-
-  <nav>
-    <h2>Menu</h2>
-    <ul>
-      <li onclick="showSection('principal')">🏠 Menu Principal</li>
-      <li onclick="showSection('chat')">💬 Chat Online</li>
-      <li onclick="showSection('historia')">📜 História</li>
-      <li onclick="showSection('config')">⚙️ Configurações</li>
-      <li onclick="showSection('conta')">👤 Conta</li>
+  <aside class="sidebar" id="sidebar">
+    <h2>Portal do Católico</h2>
+    <ul class="nav-list">
+      <li><button data-target="mainHome">🏠 Menu Principal</button></li>
+      <li><button data-target="chatPage">💬 Chat Online</button></li>
+      <li><button data-target="historyPage">📜 História</button></li>
+      <li><button data-target="configPage">⚙️ Configurações</button></li>
+      <li><button data-target="accountPage">👤 Conta</button></li>
     </ul>
-  </nav>
+    <div style="margin-top:18px;font-size:.9rem;color:var(--muted);text-align:center">
+      Feito com fé 🇻🇦
+    </div>
+  </aside>
 
-  <main>
-    <section id="principal" class="active">
-      <h1>Bem-vindo ao Portal do Católico</h1>
-      <p>Seu espaço de fé, comunhão e conhecimento sobre a Igreja Católica Apostólica Romana.</p>
+  <main id="main" aria-live="polite">
+    <!-- Menu Principal -->
+    <section id="mainHome" class="card active">
+      <h2>Bem-vindo ao Portal do Católico</h2>
+      <p class="small">Aqui você encontra orações, história, notícias e um chat para comunhão fraterna.</p>
+
+      <div id="homeContent" style="margin-top:12px;">
+        <p><strong>Passos de fé (exemplo):</strong></p>
+        <ol>
+          <li>Ame a Deus sobre todas as coisas.</li>
+          <li>Siga o exemplo de Jesus.</li>
+          <li>Ore todos os dias.</li>
+          <li>Leia e medite a Palavra de Deus.</li>
+          <li>Participe da Santa Missa.</li>
+        </ol>
+      </div>
     </section>
 
-    <section id="chat">
-      <h1>Chat Online</h1>
-      <div class="chat-container">
+    <!-- Chat -->
+    <section id="chatPage" class="card" style="display:none">
+      <h2>Chat Online</h2>
+      <div class="chat-wrap">
         <div class="messages" id="messages"></div>
+
         <div class="input-area">
-          <input type="text" id="messageInput" placeholder="Digite sua mensagem..." />
-          <button onclick="sendMessage()">Enviar</button>
+          <input id="msgInput" placeholder="Digite sua mensagem..." />
+          <button id="sendBtn">Enviar</button>
+        </div>
+      </div>
+      <p class="small" style="margin-top:8px">Dica: pressione uma mensagem para ações (copiar, reagir, responder, ver horário).</p>
+    </section>
+
+    <!-- História -->
+    <section id="historyPage" class="card" style="display:none">
+      <h2>História da Igreja Católica Apostólica Romana</h2>
+      <div style="max-height:60vh; overflow:auto; padding-right:8px;">
+        <p><strong>Resumo histórico (versão completa):</strong></p>
+        <p>
+          A Igreja Católica Apostólica Romana tem suas raízes diretamente nos apóstolos, com Pedro frequentemente
+          reconhecido como o primeiro Bispo de Roma. Ao longo de quase dois mil anos, a Igreja desenvolveu uma rica
+          tradição teológica, litúrgica e pastoral. Ela foi central na tradução e preservação de textos sagrados,
+          no desenvolvimento das artes e das universidades e na organização da assistência social e caritativa.
+        </p>
+        <p>
+          Do Império Romano à Idade Média, das Cruzadas ao Concílio de Trento, das reformas do século XX ao
+          Concílio Vaticano II, a Igreja experimentou transformações profundas e procurou responder aos desafios
+          de cada época mantendo a fidelidade à mensagem de Cristo. O Papa, como sucessor de Pedro, orienta o
+          Magistério da Igreja. A tradição sacramental, a devoção mariana e a comunhão dos santos são traços
+          distintivos do catolicismo.
+        </p>
+        <p>
+          (Se quiser, posso inserir um texto mais detalhado e cronológico com datas, papas importantes,
+          eventos e referências — me diga que eu completo.)
+        </p>
+      </div>
+    </section>
+
+    <!-- Configurações -->
+    <section id="configPage" class="card" style="display:none">
+      <h2>Configurações</h2>
+      <div class="card">
+        <div class="small">Digite a senha para acessar as configurações:</div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <input id="confPass" type="password" placeholder="Senha" />
+          <button id="enterConf" class="status-btn" style="background:var(--gold);color:#222">Entrar</button>
+        </div>
+
+        <div id="confArea" style="display:none; margin-top:12px;">
+          <div class="config-row">
+            <button id="goOnline" class="status-btn btn-online">Estamos Online</button>
+            <button id="goOffline" class="status-btn btn-offline">Não Estamos Online</button>
+            <div id="confStatus" style="margin-left:12px;font-weight:800;color:var(--muted)"></div>
+          </div>
+          <div style="margin-top:12px;">
+            <div class="small">Usuários online neste site: <span id="onlineCount">0</span></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="historia">
-      <h1>História da Igreja Católica Apostólica Romana</h1>
-      <p>
-        A Igreja Católica Apostólica Romana é a mais antiga instituição cristã contínua do mundo, 
-        com uma história que remonta aos tempos dos apóstolos de Cristo, especialmente Pedro, 
-        considerado o primeiro Papa. Ao longo dos séculos, a Igreja desempenhou papel fundamental 
-        na formação da cultura ocidental, preservando o conhecimento, promovendo a caridade e 
-        evangelizando os povos em todos os continentes.
-      </p>
-      <p>
-        Sua sede está no Vaticano, em Roma, e o Papa é seu líder espiritual. 
-        A fé católica se baseia na Sagrada Escritura, na Tradição Apostólica e no Magistério da Igreja. 
-        O catolicismo é marcado pelos sacramentos, pela devoção à Virgem Maria e aos santos, 
-        e pela missão de anunciar o Evangelho a toda criatura.
-      </p>
-    </section>
-
-    <section id="config">
-      <h1>Configurações</h1>
-      <div class="config-area" id="configArea">
-        <input type="password" id="senhaInput" placeholder="Digite a senha" />
-        <button onclick="verificarSenha()">Entrar</button>
-        <div id="configConteudo" style="display:none;">
-          <button class="status-btn btn-online" onclick="ativarStatus(true)">Estamos Online</button>
-          <button class="status-btn btn-offline" onclick="ativarStatus(false)">Não Estamos Online</button>
-          <div class="counter" id="onlineCounter">Usuários online: 0</div>
-          <p id="statusMsg"></p>
+    <!-- Conta -->
+    <section id="accountPage" class="card" style="display:none">
+      <h2>Conta</h2>
+      <div id="accountContent">
+        <p id="acctInfo" class="small">Sem usuário logado.</p>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button id="logoutBtn" style="background:#ff6b6b;color:white;border:none;padding:8px 10px;border-radius:8px;cursor:pointer;">Sair</button>
         </div>
       </div>
     </section>
 
-    <section id="conta">
-      <h1>Conta</h1>
-      <p id="userInfo">Carregando informações da conta...</p>
-      <button onclick="logout()">Sair</button>
-    </section>
   </main>
 
-  <script type="module">
-    // =====================================
-    // 🔥 CONFIGURAÇÃO DO FIREBASE
-    // Cole aqui as mesmas chaves do seu projeto
-    // =====================================
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+  <!-- Modal login simples -->
+  <div id="loginModal" style="display:none; position:fixed; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,.4); align-items:center; justify-content:center; z-index:80;">
+    <div style="background:white; padding:20px; border-radius:12px; width:340px;">
+      <h3 style="margin:0 0 8px">Login / Cadastro</h3>
+      <input id="emailInput" placeholder="Email" style="width:100%;padding:8px;margin-bottom:8px;border-radius:8px;border:1px solid #ddd;" />
+      <input id="pwdInput" type="password" placeholder="Senha" style="width:100%;padding:8px;margin-bottom:8px;border-radius:8px;border:1px solid #ddd;" />
+      <div style="display:flex; gap:8px;">
+        <button id="doLogin" style="flex:1;background:var(--gold);border:none;padding:10px;border-radius:8px;font-weight:800;cursor:pointer;">Entrar</button>
+        <button id="doRegister" style="flex:1;background:#ddd;border:none;padding:10px;border-radius:8px;cursor:pointer;">Cadastrar</button>
+      </div>
+      <div style="margin-top:8px;text-align:right">
+        <button id="closeLogin" style="background:transparent;border:none;color:var(--muted);cursor:pointer">Fechar</button>
+      </div>
+      <p id="loginMsg" class="small" style="color:crimson"></p>
+    </div>
+  </div>
 
+  <script type="module">
+    /* =============================
+       INSTRUÇÕES FIREBASE (opcional)
+       =============================
+       - Se você quiser usar o Firebase "REAL" (Auth + Firestore), cole suas chaves abaixo e
+         descomente a inicialização das libs Firebase (linhas indicadas).
+       - Se NÃO colar, o site usa um modo SIMULADO (localStorage) para testar tudo na hora.
+    */
+
+    // -------------------------
+    // COLE AQUI SUAS CHAVES FIREBASE
+    // -------------------------
     const firebaseConfig = {
-      // 🔑 COLE AQUI SUAS CHAVES DO FIREBASE (as mesmas do outro site)
+      // Exemplo:
+      // apiKey: "AIzaSy....",
+      // authDomain: "seu-projeto.firebaseapp.com",
+      // projectId: "seu-projeto",
+      // storageBucket: "seu-projeto.appspot.com",
+      // messagingSenderId: "1234567890",
+      // appId: "1:123456:web:abcdef",
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    // DETECTA se o usuário colou config (checa apiKey como exemplo)
+    const hasFirebaseConfig = !!(firebaseConfig && firebaseConfig.apiKey);
 
-    // =====================================
-    // 🔹 MENU DE NAVEGAÇÃO
-    // =====================================
-    function showSection(id) {
-      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
+    // Se o dev colar as chaves, as imports abaixo serão usadas.
+    // OBS: As linhas de import estão comentadas para evitar erros se não houver config.
+    let firebase = null;
+    let auth = null;
+    let db = null;
+    if (hasFirebaseConfig) {
+      // Se quiser ativar Firebase real, remova os comentários e certifique-se de colar as chaves above.
+      // import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+      // import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+      // import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+      //
+      // const app = initializeApp(firebaseConfig);
+      // auth = getAuth(app);
+      // db = getFirestore(app);
+      //
+      // // (Opcional) setPersistence(auth, browserLocalPersistence);
+      //
+      // firebase = { app, auth, db };
     }
 
-    // =====================================
-    // 💬 CHAT ONLINE
-    // =====================================
-    const messagesDiv = document.getElementById("messages");
-    const messageInput = document.getElementById("messageInput");
+    /* =============================
+       FUNÇÕES DE NAVEGAÇÃO / MENU
+       ============================= */
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+    const toggleBtn = document.getElementById('toggleMenu');
+    const navButtons = document.querySelectorAll('.nav-list button');
 
-    async function sendMessage() {
-      const text = messageInput.value.trim();
-      if (text === "") return;
-      const user = auth.currentUser;
-      if (!user) return alert("Você precisa estar logado.");
+    function openSidebar(open=true){
+      if(open){
+        sidebar.classList.add('open');
+        main.classList.add('shift');
+      } else {
+        sidebar.classList.remove('open');
+        main.classList.remove('shift');
+      }
+    }
 
-      await addDoc(collection(db, "mensagens"), {
-        nome: user.email.split("@")[0],
-        texto: text,
-        horario: serverTimestamp()
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      main.classList.toggle('shift');
+    });
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const target = e.currentTarget.dataset.target;
+        showSection(target);
+        // fecha sidebar em telas pequenas
+        if(window.innerWidth < 920) openSidebar(false);
       });
+    });
 
-      messageInput.value = "";
+    function showSection(id){
+      document.querySelectorAll('main section').forEach(s => s.style.display = 'none');
+      const el = document.getElementById(id);
+      if(el) el.style.display = 'block';
+      // foco simples
+      window.scrollTo({top:0, behavior:'smooth'});
     }
 
-    onSnapshot(collection(db, "mensagens"), (snapshot) => {
-      messagesDiv.innerHTML = "";
-      snapshot.forEach(doc => {
-        const msg = doc.data();
-        const div = document.createElement("div");
-        div.className = "message";
+    // Inicial: mostrar página principal
+    showSection('mainHome');
+
+    /* =============================
+       LOGIN / CONTA (simulado ou firebase)
+       - Se hasFirebaseConfig true e libs ativadas, substitua
+         pelas chamadas reais do Firebase Auth.
+       ============================= */
+    let currentUser = null;
+
+    const loginModal = document.getElementById('loginModal');
+    const openLogin = document.getElementById('openLogin');
+    const closeLogin = document.getElementById('closeLogin');
+    const doLogin = document.getElementById('doLogin');
+    const doRegister = document.getElementById('doRegister');
+    const emailInput = document.getElementById('emailInput');
+    const pwdInput = document.getElementById('pwdInput');
+    const loginMsg = document.getElementById('loginMsg');
+    const userBadge = document.getElementById('userBadge');
+    const acctInfo = document.getElementById('acctInfo');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    openLogin.addEventListener('click', () => {
+      loginModal.style.display = 'flex';
+      loginMsg.textContent = '';
+    });
+    closeLogin.addEventListener('click', () => loginModal.style.display = 'none');
+
+    // UTIL: salva usuário simulado no localStorage
+    function saveSimUser(email, pwd){
+      const users = JSON.parse(localStorage.getItem('sim_users') || '{}');
+      users[email] = { email, pwd };
+      localStorage.setItem('sim_users', JSON.stringify(users));
+    }
+    function checkSimUser(email, pwd){
+      const users = JSON.parse(localStorage.getItem('sim_users') || '{}');
+      return users[email] && users[email].pwd === pwd;
+    }
+
+    doRegister.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const pwd = pwdInput.value;
+      if(!email || !pwd){ loginMsg.textContent = 'Preencha email e senha.'; return; }
+      // No modo real, aqui chamaria createUserWithEmailAndPassword
+      if(hasFirebaseConfig){ loginMsg.textContent = 'Ative Firebase no código para registrar.'; return; }
+      saveSimUser(email, pwd);
+      currentUser = { email };
+      loginModal.style.display = 'none';
+      updateUIOnLogin();
+    });
+
+    doLogin.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const pwd = pwdInput.value;
+      if(!email || !pwd){ loginMsg.textContent = 'Preencha email e senha.'; return; }
+      if(hasFirebaseConfig){ loginMsg.textContent = 'Ative Firebase no código para logar real.'; return; }
+      if(checkSimUser(email, pwd)){
+        currentUser = { email };
+        loginModal.style.display = 'none';
+        updateUIOnLogin();
+      } else {
+        loginMsg.textContent = 'Usuário não encontrado ou senha incorreta.';
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      // real: signOut(auth)
+      currentUser = null;
+      updateUIOnLogin();
+      alert('Você saiu.');
+    });
+
+    function updateUIOnLogin(){
+      if(currentUser){
+        userBadge.textContent = currentUser.email;
+        acctInfo.textContent = `Logado como: ${currentUser.email}`;
+        openLogin.style.display = 'none';
+      } else {
+        userBadge.textContent = 'Não logado';
+        acctInfo.textContent = 'Sem usuário logado.';
+        openLogin.style.display = 'inline-block';
+      }
+    }
+    updateUIOnLogin();
+
+    /* =============================
+       CHAT (modo real com Firestore se ativado; fallback localStorage)
+       ============================= */
+    const messagesDiv = document.getElementById('messages');
+    const msgInput = document.getElementById('msgInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Simulação: mensagens em localStorage
+    function loadSimMessages(){
+      return JSON.parse(localStorage.getItem('sim_mensagens') || '[]');
+    }
+    function saveSimMessage(msg){
+      const arr = loadSimMessages();
+      arr.push(msg);
+      localStorage.setItem('sim_mensagens', JSON.stringify(arr));
+    }
+
+    function renderMessages(msgs){
+      messagesDiv.innerHTML = '';
+      msgs.forEach((m, idx) => {
+        const div = document.createElement('div');
+        div.className = 'message';
+        div.dataset.idx = idx;
+        const timeStr = new Date(m.horario).toLocaleTimeString();
         div.innerHTML = `
-          <strong>${msg.nome}</strong>: ${msg.texto}
-          <div class="message-menu">
-            <button onclick="navigator.clipboard.writeText('${msg.texto}')">📋</button>
-            <button>❤️</button>
-            <button>💬</button>
-            <span>${msg.horario?.toDate ? msg.horario.toDate().toLocaleTimeString() : ''}</span>
+          <div style="flex:1">
+            <div class="meta"><strong>${escapeHtml(m.nome)}</strong></div>
+            <div class="text">${escapeHtml(m.texto)}</div>
+            <div class="reactions" data-reactions></div>
+          </div>
+          <div class="msg-actions">
+            <button title="Copiar" data-action="copy">📋</button>
+            <button title="Reagir" data-action="react">❤️</button>
+            <button title="Responder" data-action="reply">↩️</button>
+            <button title="Ver horário" data-action="time">🕒</button>
           </div>
         `;
-        messagesDiv.appendChild(div);
-      });
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
+        // render reactions if houver
+        const reactionsEl = div.querySelector('[data-reactions]');
+        if(m.reacoes){
+          Object.entries(m.reacoes).forEach(([emoji, count]) => {
+            const span = document.createElement('span');
+            span.textContent = `${emoji} ${count}`;
+            reactionsEl.appendChild(span);
+          });
+        }
+        // attach events
+        div.querySelectorAll('.msg-actions button').forEach(b => {
+          b.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const action = b.dataset.action;
+            handleMsgAction(action, m, idx, div);
+          });
+        });
 
-    // =====================================
-    // ⚙️ CONFIGURAÇÕES
-    // =====================================
-    function verificarSenha() {
-      const senha = document.getElementById("senhaInput").value;
-      if (senha === "PTC333") {
-        document.getElementById("configConteudo").style.display = "block";
-      } else {
-        alert("Senha incorreta.");
-      }
-    }
+        // long press support (mobile) -> show small popup (we use the same actions)
+        let pressTimer = null;
+        div.addEventListener('touchstart', (e) => {
+          pressTimer = setTimeout(()=> {
+            // show actions by simulating clicking first action (or custom menu)
+            // we will open a small contextual menu (use native prompt for simplicity)
+            showContextMenuForMessage(m, idx, div);
+          }, 600);
+        });
+        div.addEventListener('touchend', ()=> clearTimeout(pressTimer));
+        div.addEventListener('mousedown', (e)=> {
+          pressTimer = setTimeout(()=> {
+            showContextMenuForMessage(m, idx, div);
+          }, 700);
+        });
+        div.addEventListener('mouseup', ()=> clearTimeout(pressTimer));
 
-    function ativarStatus(online) {
-      const msg = document.getElementById("statusMsg");
-      msg.textContent = online ? "ESTAMOS ONLINE" : "NÃO ESTAMOS ONLINE";
-      msg.style.color = online ? "green" : "gray";
-    }
-
-    // =====================================
-    // 👤 CONTA
-    // =====================================
-    onAuthStateChanged(auth, (user) => {
-      const userInfo = document.getElementById("userInfo");
-      if (user) {
-        userInfo.textContent = `Logado como: ${user.email}`;
-      } else {
-        userInfo.textContent = "Nenhum usuário logado.";
-      }
-    });
-
-    function logout() {
-      signOut(auth);
-      alert("Você saiu da conta.");
-    }
-  </script>
-</body>
-          </html>
+        messagesDiv.appendChild
