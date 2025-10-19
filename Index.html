@@ -1,0 +1,142 @@
+<!doctype html>
+
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portal Do Católico - PTC</title>
+  <style>
+    :root {
+      --vatican-yellow: #FFD700;
+      --vatican-white: #FFFFFF;
+      --text: #222;
+      --muted: #555;
+      --accent: #B8860B;
+      --container: 1200px;
+      --radius: 12px;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--vatican-white); color: var(--text); }
+    header { background: var(--vatican-yellow); padding: 18px 12px; border-bottom: 4px solid rgba(0,0,0,0.06); text-align: center; }
+    .logo-text { font-size: 2rem; font-weight: 700; color: var(--vatican-white); display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .logo-text span { font-size: 2.5rem; color: var(--accent); }
+    main { display: grid; grid-template-columns: 320px 1fr; gap: 18px; padding: 18px; max-width: var(--container); margin: 0 auto; }
+    aside { position: sticky; top: 18px; padding: 12px; border-radius: var(--radius); background: linear-gradient(180deg, rgba(255,215,0,0.06), transparent); border:1px solid rgba(0,0,0,0.03); }
+    .toc h3 { margin: 0 0 8px; }
+    .toc ol { padding-left: 18px; margin:0; }
+    .toc li { margin:6px 0; }
+    .search { display:flex; gap:8px; margin-top:12px; }
+    .search input { flex:1; padding:8px; border-radius:8px; border:1px solid rgba(0,0,0,0.08); }
+    .btn { background: var(--accent); color: white; padding: 8px 12px; border-radius: 10px; text-decoration: none; font-weight:600; cursor:pointer; border:none; }
+    .btn.ghost { background:transparent; color: var(--text); border:2px solid rgba(0,0,0,0.06); }
+    article { padding:12px; border-radius: var(--radius); background: rgba(255,255,255,0.9); box-shadow:0 6px 18px rgba(0,0,0,0.03); }
+    section.step { padding:12px; margin-bottom:12px; border-left:6px solid var(--vatican-yellow); border-radius:8px; background:linear-gradient(180deg, rgba(255,250,240,0.6), rgba(255,255,255,0.7)); }
+    section.step h2 { margin:0 0 8px; font-size:1.1rem; }
+    section.step p { margin:0; color:var(--muted); }
+    footer { padding:18px 0; color:var(--muted); text-align:center; }
+    @media(max-width:900px){ main { grid-template-columns:1fr } aside { position:relative; order:2 } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-text"><span>✝️</span>Guia do Católico</div>
+  </header>  <section class="wrap" style="max-width: var(--container); margin: 18px auto;">
+    <h2 style="text-align:center;">🇻🇦 Comunidade Apostólica Romana 🇻🇦</h2>
+    <p>A Igreja Católica Apostólica Romana é a mais antiga instituição cristã, fundada nos ensinamentos de Jesus Cristo e dos apóstolos. Com sede em Roma e liderada pelo Papa, ela preserva a sucessão apostólica, os sacramentos e o magistério. A Igreja se espalhou pelo mundo, formando dioceses e paróquias, promovendo evangelização, caridade e educação. Ao longo dos séculos, influenciou profundamente a cultura, a arte e a vida espiritual da humanidade.</p><div style="margin-top:20px;background:rgba(255,250,240,0.7);padding:16px;border-radius:10px;border:1px solid rgba(0,0,0,0.05)">
+  <h3>Procure sua cidade e veja todas as paróquias</h3>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <input id="cidadeInput" type="text" placeholder="Digite o nome da cidade" style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.1)" />
+    <button id="buscarCidade" class="btn">Buscar</button>
+  </div>
+  <div id="resultadoCidade" style="margin-top:12px;color:var(--muted);"></div>
+</div>
+
+  </section>  <main>
+    <aside>
+      <div class="toc">
+        <h3>Índice Rápido</h3>
+        <ol id="tocList"></ol>
+      </div>
+      <div class="card">
+          <h1>AVISO RÁPIDO!</h1>
+          <p>CASO TENHA ALGUMA DÚVIDA EM ALGUM DOS PASSOS DO GUIA PESQUISE NO SEU NAVEGADOR!</p>
+      </div>
+    </aside><article id="conteudo">
+  <div id="stepsContainer">
+    <section class="step"><h2>1. Comece com o desejo sincero de seguir a Cristo</h2><p>Entregar a vida e manter um desejo contínuo de crescer na fé é a base para os próximos passos.</p></section>
+    <section class="step"><h2>2. Participe da Missa regularmente</h2><p>Valorize a Eucaristia dominical e feriados, participando com atenção e oração.</p></section>
+    <section class="step"><h2>3. Receba os sacramentos: Batismo e Confirmação</h2><p>Esses sacramentos fortalecem a fé e a ligação com a Igreja.</p></section>
+    <section class="step"><h2>4. Faça a Primeira Eucaristia com reverência</h2><p>Preparar-se espiritualmente é essencial para receber o Corpo de Cristo.</p></section>
+    <section class="step"><h2>5. Confesse-se regularmente</h2><p>O sacramento da Reconciliação ajuda a manter o coração puro e a alma em paz.</p></section>
+    <section class="step"><h2>6. Ore diariamente</h2><p>Reserve momentos para oração pessoal, agradecimento e pedidos.</p></section>
+    <section class="step"><h2>7. Leia a Bíblia e medite</h2><p>Estude a Palavra de Deus para fortalecer a fé e compreender os ensinamentos.</p></section>
+    <section class="step"><h2>8. Estude a doutrina católica</h2><p>Catecismo, documentos da Igreja e formação contínua ajudam na vida espiritual.</p></section>
+    <section class="step"><h2>9. Ame o próximo e pratique a caridade</h2><p>A caridade é o coração da vida cristã, demonstrando amor em ações concretas.</p></section>
+    <section class="step"><h2>10. Viva os Dez Mandamentos</h2><p>Seguir os mandamentos guia a vida moral e espiritual no dia a dia.</p></section>
+    <section class="step"><h2>11. Honre a família e os mais velhos</h2><p>Respeito e cuidado com familiares fortalecem o vínculo cristão.</p></section>
+    <section class="step"><h2>12. Participe de grupos de oração</h2><p>Unir-se a comunidades fortalece a fé e a amizade espiritual.</p></section>
+    <section class="step"><h2>13. Respeite os ensinamentos do Papa e Bispos</h2><p>Eles guiam a Igreja e preservam a verdade da fé.</p></section>
+    <section class="step"><h2>14. Observe os dias santos e festas litúrgicas</h2><p>Celebrar o calendário litúrgico aproxima o fiel de Deus e da Igreja.</p></section>
+    <section class="step"><h2>15. Ajude na catequese ou ensino religioso</h2><p>Transmitir a fé a outros é um chamado de todos os católicos.</p></section>
+    <section class="step"><h2>16. Pratique a humildade e o perdão</h2><p>O perdão fortalece o espírito e o relacionamento com Deus e os outros.</p></section>
+    <section class="step"><h2>17. Fortaleça a fé através de devoções</h2><p>Rosário, novenas e práticas devocionais aprofundam a ligação com Deus.</p></section>
+    <section class="step"><h2>18. Confie na Providência divina</h2><p>Entregue seus problemas a Deus com fé e serenidade.</p></section>
+    <section class="step"><h2>19. Sirva na Igreja</h2><p>Participar de ministérios e voluntariado é forma de viver a fé em ação.</p></section>
+    <section class="step"><h2>20. Pratique jejum e abstinência</h2><p>Observe os dias indicados para aprofundar a disciplina espiritual.</p></section>
+    <section class="step"><h2>21. Estude a vida dos santos</h2><p>Inspire-se em exemplos de virtude e santidade para crescer na fé.</p></section>
+    <section class="step"><h2>22. Ensine a fé aos jovens</h2><p>Transmitir a fé às novas gerações fortalece a Igreja e a sociedade.</p></section>
+    <section class="step"><h2>23. Promova a paz e justiça</h2><p>Viva valores cristãos em sua comunidade e trabalho.</p></section>
+    <section class="step"><h2>24. Participe de retiros espirituais</h2><p>Momentos de silêncio e reflexão aprofundam a vida interior.</p></section>
+    <section class="step"><h2>25. Desenvolva a vida interior</h2><p>Pratique oração contemplativa e meditação para crescer espiritualmente.</p></section>
+    <section class="step"><h2>26. Aprofunde-se na liturgia e música sacra</h2><p>Valorize a beleza litúrgica e os cantos sagrados da Igreja.</p></section>
+    <section class="step"><h2>27. Apoie projetos sociais da Igreja</h2><p>Contribuir ajuda pessoas em situação de vulnerabilidade.</p></section>
+    <section class="step"><h2>28. Cultive a gratidão e alegria cristã</h2><p>Viva a fé com entusiasmo e reconhecimento das bênçãos.</p></section>
+    <section class="step"><h2>29. Evite pecados e tentações</h2><p>Disciplina e oração ajudam a manter-se no caminho correto.</p></section>
+    <section class="step"><h2>30. Faça exames de consciência diários</h2><p>Reflita sobre atitudes e busque melhorar diariamente.</p></section>
+    <section class="step"><h2>31. Participe da adoração eucarística</h2><p>Momentos de contemplação diante do Santíssimo fortalecem a fé.</p></section>
+    <section class="step"><h2>32. Pratique a caridade anônima</h2><p>Atos discretos de amor ao próximo agradam a Deus e fortalecem a comunidade.</p></section>
+    <section class="step"><h2>33. Seja missionário no seu ambiente</h2><p>Divulgue a fé com palavras e atitudes em família, trabalho e sociedade.</p></section>
+    <section class="step"><h2>34. Persevere na fé</h2><p>Mantenha a fé mesmo diante das dificuldades e provações.</p></section>
+    <section class="step"><h2>35. Ame sempre a Deus sobre todas as coisas</h2><p>O amor a Deus é o fundamento da vida cristã e de todos os outros passos.</p></section>
+  </div>
+</article>
+
+  </main>  <footer>
+    <small>Guia do Católico — conteúdo catequético e formativo.</small>
+  </footer>  <script>
+    const paroquias = {
+      "belo jardim": ["Paróquia Nossa Senhora da Conceição","Paróquia São Pedro e São Paulo"],
+      "são paulo": ["Catedral Metropolitana de São Paulo","Paróquia Nossa Senhora da Conceição / Santa Ifigênia","Paróquia São José (Americanópolis)","Paróquia Nossa Senhora de Lourdes (Parque Industrial)"],
+      "recife": ["Paróquia de São José do Recife","Paróquia Nossa Senhora do Carmo","Paróquia de Santo Antônio"],
+      "rio de janeiro": ["Catedral de São Sebastião","Paróquia São João Batista","Paróquia Nossa Senhora da Paz"],
+      "salvador": ["Paróquia da Sé","Paróquia Nossa Senhora do Rosário","Paróquia São Francisco"],
+      "fortaleza": ["Paróquia de Nossa Senhora da Assunção","Paróquia de São José de Ribamar"],
+      "porto alegre": ["Catedral Metropolitana de Porto Alegre","Paróquia Nossa Senhora das Dores"]
+    };
+
+    document.getElementById('buscarCidade').addEventListener('click', ()=>{
+      const cidade = document.getElementById('cidadeInput').value.trim().toLowerCase();
+      const resultado = document.getElementById('resultadoCidade');
+      if(paroquias[cidade]){
+        const lista = paroquias[cidade].map(p => `<li>${p}</li>`).join('');
+        resultado.innerHTML = `<strong>Paróquias em ${cidade.toUpperCase()}:</strong><ul>${lista}</ul>`;
+      } else {
+        resultado.innerHTML = `Não temos dados sobre <strong>${cidade.toUpperCase()}</strong>.`;
+      }
+    });
+
+    (function(){
+      const steps = Array.from(document.querySelectorAll('.step'));
+      const toc = document.getElementById('tocList');
+      steps.forEach((s,i) =>{
+        s.id = 'step'+(i+1);
+        const h = s.querySelector('h2').innerText;
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#'+s.id; a.innerText = h; a.style.color='inherit';
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script></body>
+                                                                </html>
