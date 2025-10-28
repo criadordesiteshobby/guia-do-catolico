@@ -118,6 +118,27 @@
     </article>
   </main>
 
+  <div class="ajuda"
+    <h1> AJUDE A GENTE COMPRANDO O NOSSO PRODUTO! </h1>
+    <a href="https://pay.kiwify.com.br/kepujAt?afid=Xc7WvRo5" target="_blank">
+  <button style="
+    background-color: gold;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: 0.3s;
+  "
+  onmouseover="this.style.backgroundColor='#ffd700'"
+  onmouseout="this.style.backgroundColor='gold'">
+    COMPRAR
+  </button>
+    </a>
+
   <footer>
     <small>Guia do Católico — conteúdo catequético e formativo.</small>
   </footer>
