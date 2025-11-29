@@ -17,3 +17,20 @@ Use nomes como:
 **...code**
 **catolico...**
 **catolich-code-cp**
+
+### 3. Faça suas alterações
+Sempre mantenha o código organizado.
+
+### 4. Abra um Pull Request
+Explique:
+- o que fez  
+- por que fez  
+- como testar  
+
+---
+
+## Regras Básicas
+- Não usar imagens com direitos autorais.
+- Evitar textos ofensivos ou contrários à fé católica.
+- Organizar o código em pastas corretas.
+- Usar HTML, CSS e JS simples para manter o acesso fácil.
