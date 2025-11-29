@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SEU-USUARIO/catolich-code/main/public/imagens/logo.png" width="200">
+</p>
+
 # CATÓLICH CODE
 
 O **CATÓLICH CODE** é um projeto de evangelização através da **tecnologia e programação**, criado para unir fé, aprendizado e prática. A ideia é simples: levar conteúdo católico, estudos e ferramentas digitais para ajudar pessoas a crescerem espiritualmente enquanto aprendem lógica, desenvolvimento web e programação.
