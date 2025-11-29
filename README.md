@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/SEU-USUARIO/catolich-code/main/public/imagens/logo.png" width="200">
+  <img src="https://github.com/cesaralexandrecodeorg/catolich-code/blob/7013af3779d2173eddae0716ceac757f5779ebbd/public/imagens/Inserir%20um%20subt%C3%ADtulo_20251128_192841_0000.png" width="200">
 </p>
 
 # CATÓLICH CODE
