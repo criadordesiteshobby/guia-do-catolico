@@ -1,1 +1,1 @@
-O projeto guia do católico tem como objetivo principal evangelizar e fazer com que pessoas que não tem muita fé em Deus aumentar ela. Caso você queria participar desse projeto basta apenas ver o arquivo license!
+O projeto guia do católico tem como objetivo principal evangelizar e fazer com que pessoas que não tem muita fé em Deus aumentar ela usando a programação e tecnologia. Caso você queria participar desse projeto basta apenas ver o arquivo license!
