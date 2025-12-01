@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CATÓLICH CODE</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f3f3f3;
+    color: #222;
+  }
+
+  header {
+    background: #111;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  nav {
+    background: #222;
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  nav a {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  nav a:hover {
+    color: #00e676;
+  }
+
+  .container {
+    max-width: 950px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  /* Cards dos produtos */
+  .produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px #0003;
+  }
+
+  .card h3 {
+    margin-top: 0;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #00e676;
+    color: #000;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn:hover {
+    background: #00c863;
+  }
+
+  /* Esconder páginas */
+  .pagina {
+    display: none;
+  }
+
+  .ativa {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CATÓLICH CODE</h1>
+  <p>Evangelização com Programação</p>
+</header>
+
+<nav>
+  <a onclick="abrir('home')">Início</a>
+  <a onclick="abrir('produtos')">Produtos</a>
+  <a onclick="abrir('doacoes')">Doações</a>
+  <a onclick="abrir('licenca')">Licença</a>
+  <a onclick="abrir('sobre')">Sobre o Projeto</a>
+</nav>
+
+
+<div class="container">
+
+  <!-- HOME -->
+  <section id="home" class="pagina ativa">
+    <h2>Bem-vindo ao CATÓLICH CODE</h2>
+    <p>O CATÓLICH CODE é um projeto criado para unir fé e tecnologia.  
+       Aqui você encontra ferramentas, códigos, templates e conteúdo para ajudar
+       na evangelização através da programação.</p>
+  </section>
+
+
+  <!-- PRODUTOS -->
+  <section id="produtos" class="pagina">
+    <h2>Produtos</h2>
+
+    <div class="produtos">
+
+      <div class="card">
+        <h3>Pacote de Códigos Python</h3>
+        <p>Scripts prontos para estudo, modificação e uso em projetos.</p>
+        <div class="btn" onclick="comprar('Pacote de Códigos Python')">Comprar</div>
+      </div>
+
+      <div class="card">
+        <h3>Templates HTML Católicos</h3>
+        <p>Templates prontos para sites religiosos e páginas de evangelização.</p>
+        <div class="btn" onclick="comprar('Templates HTML')">Comprar</div>
+      </div>
+
+      <div class="card">
+        <h3>Ferramentas Web</h3>
+        <p>Apps simples como geradores de versículos, orações, banners etc.</p>
+        <div class="btn" onclick="comprar('Ferramentas Web')">Comprar</div>
+      </div>
+
+      <div class="card">
+        <h3>Cursos Simples</h3>
+        <p>Cursos básicos de HTML, CSS, Python e como evangelizar com código.</p>
+        <div class="btn" onclick="comprar('Curso Simples')">Comprar</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- DOAÇÕES -->
+  <section id="doacoes" class="pagina">
+    <h2>Doações</h2>
+    <p>Ajude o projeto a crescer!</p>
+    <p><strong>PIX:</strong> SEU-PIX-AQUI</p>
+  </section>
+
+
+  <!-- LICENÇA -->
+  <section id="licenca" class="pagina">
+    <h2>Licença</h2>
+    <p>Todo conteúdo do CATÓLICH CODE pode ser usado para evangelização e estudo.  
+       Vendas são permitidas desde que mantenham o propósito de evangelizar.</p>
+  </section>
+
+
+  <!-- SOBRE -->
+  <section id="sobre" class="pagina">
+    <h2>Sobre o Projeto</h2>
+    <p>O propósito do CATÓLICH CODE é permitir que qualquer pessoa use programação
+       para evangelizar, criar projetos, templates, códigos e ferramentas que 
+       levem a fé a mais pessoas.</p>
+  </section>
+
+</div>
+
+
+<script>
+function abrir(pagina) {
+  document.querySelectorAll(".pagina").forEach(sec => sec.classList.remove("ativa"));
+  document.getElementById(pagina).classList.add("ativa");
+}
+
+function comprar(produto) {
+  alert("Página de compra do produto: " + produto + " (não criada ainda)");
+}
+</script>
+
+</body>
+</html>
